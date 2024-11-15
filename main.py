@@ -84,7 +84,6 @@ for file in os.listdir(directory):
 
         for resposta in respostas:
             formatted_resposta = resposta.split(") ")
-            print(formatted_resposta[-1])
             pergunta_id.append(file_number)
             pagina_id.append(file_number)
             alternativa.append(formatted_resposta[-1])
