@@ -41,6 +41,8 @@ def generate_data(processed_data):
 
     pergunta_id = []
     pagina_id = []
+    alternativa_id = []
+    count_alternativa = len(processed_data)*4+1 if len(processed_data) > 0 else 0
     alternativa = []
     alternativa_correta = []
 
@@ -96,17 +98,21 @@ def generate_data(processed_data):
                     pergunta_id.append(file_id)
                     pagina_id.append(file_id)
                     alternativa.append(formatted_resposta[-1])
+                    alternativa_id.append(count_alternativa)
+                    count_alternativa += 1
+                    
                     if "x" in formatted_resposta[0] or "X" in formatted_resposta[0]:
                         alternativa_correta.append(True)
                     else:
                         alternativa_correta.append(False)
 
-    df_alternativa = pd.DataFrame(columns=["pergunta_id", "pagina_id", "alternativa", "alternativa_correta"])
+    df_alternativa = pd.DataFrame(columns=["id", "pergunta_id", "pagina_id", "alternativa", "alternativa_correta"])
     df_alternativa["pergunta_id"] = pergunta_id
     df_alternativa["pagina_id"] = pagina_id
     df_alternativa["alternativa"] = alternativa
     df_alternativa["alternativa_correta"] = alternativa_correta
-    df_alternativa.index.names = ["id"]
+    df_alternativa["id"] = alternativa_id
+    df_alternativa.set_index("id", inplace = True)
 
     df_alternativa = df_alternativa.convert_dtypes()
     df_pagina = df_pagina.convert_dtypes()
